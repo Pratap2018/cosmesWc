@@ -8,14 +8,13 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
-
   },
   "dependencies": {
     "@wagmi/connectors": "4.1.14",
     "@wagmi/core": "2.6.5",
     "@web3modal/wagmi": "4.1.1",
     "buffer": "^6.0.3",
-    "cosmes": "../cosmes",
+    "cosmes": "https://github.com/hypersign-protocol/cosmes#build",
     "viem": "^2.8.12",
     "vue": "^3.4.21"
   },
