@@ -1,8 +1,37 @@
 <script setup>
 import { MsgSend } from "cosmes/client";
 import { mainnet, bsc } from "viem/chains";
-import { getAccount ,reconnect} from "@wagmi/core";
-import HelloWorld from './HelloWorld.vue';
+import { getAccount, reconnect, getWalletClient } from "@wagmi/core";
+import HelloWorld from "./HelloWorld.vue";
+import { base58btc } from "multiformats/bases/base58";
+import { HypersignDID } from "hs-ssi-sdk";
+
+import { EcdsaSecp256k1Signature2019 } from "keplr-ecdsasecp256k1signature2019";
+import jsSig from "jsonld-signatures";
+import { purposes } from "jsonld-signatures";
+import jsonld from "jsonld";
+
+const nodeDocumentLoader = jsonld.documentLoader;
+import ecdsasecp2019 from "./lds-ecdsa-secp256k1-recovery2019.json";
+
+const CONTEXTS = Object.freeze({
+  "https://ns.did.ai/suites/secp256k1-2019/v1/": {
+    ...ecdsasecp2019,
+  },
+});
+
+const docloader = async (url, options) => {
+  if (url in CONTEXTS) {
+    return {
+      contextUrl: null, // this is for a context via a link header
+      document: CONTEXTS[url], // this is the actual document that was loaded
+      documentUrl: url, // this is the actual context URL after redirects
+    };
+  }
+
+  return nodeDocumentLoader(url);
+};
+
 
 import {
   createWeb3Modal,
@@ -10,12 +39,11 @@ import {
   useWeb3Modal,
   useWeb3ModalEvents,
   useWeb3ModalState,
-  useWeb3ModalTheme
-} from '@web3modal/wagmi/vue'
+  useWeb3ModalTheme,
+} from "@web3modal/wagmi/vue";
 
 // @ts-expect-error 1. Get projectId
-const projectId = "46808fcc7a91e0856a6734652cf14fa2"
-
+const projectId = "46808fcc7a91e0856a6734652cf14fa2";
 
 // modal.subscribeState((st) => {
 //   console.log(st);
@@ -43,6 +71,8 @@ const state = reactive({
   connected: "",
   wallet: "",
   signature: "",
+  publicKey: "",
+  web3: "",
 });
 
 async function connect(type, chainIds, walletType) {
@@ -53,10 +83,10 @@ async function connect(type, chainIds, walletType) {
       gasPrice: getGasPrice(chainId),
     }));
     state.wallet = await CONTROLLERS[type].connect(walletType, chainInfos);
-    state.connected = computed(
-      () => Object.fromEntries(state.wallet)[chainIds].address
-    );
-    console.log(state.connected);
+    const temp = Object.fromEntries(state.wallet)[chainIds];
+    state.web3 = temp;
+    state.connected = computed(() => temp.address);
+    state.publicKey = temp.pubKey;
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -214,10 +244,62 @@ async function signArbitrary(chainId) {
     alert(err.message);
   }
 }
+
+async function generateDid() {
+  const didSdk = new HypersignDID({
+    namespace: "testnet",
+    nodeRestEndpoint: "https://api.prajna.hypersign.id",
+    nodeRpcEndpoint: "https://rpc.prajna.hypersign.id",
+  });
+
+  const chainId = state.publicKey.data.chainId;
+  const pubKey = base58btc.encode(state.publicKey.data.key);
+  console.log(pubKey);
+  const didDoc = await didSdk.createByClientSpec({
+    methodSpecificId: pubKey,
+    address: state.connected,
+    publicKey: pubKey,
+    clientSpec: "cosmos-ADR036",
+    chainId,
+  });
+
+  const eds = new EcdsaSecp256k1Signature2019({
+    chainId,
+    provider: state.web3.ext ? state.web3.ext : state.web3.wc,
+    bech32AddressPrefix: "cosmos",
+  });
+  console.log(state.web3);
+
+  // const signdDidDoc = await didSdk.signByClientSpec({
+  //   didDocument: didDoc,
+  //   clientSpec: "cosmos-ADR036",
+  //   address: state.connected,
+  //   chainId,
+  //   web3: state.web3.ext ? state.web3.ext : state.web3,
+  // });
+
+  const signed = await jsSig.sign(didDoc, {
+    suite: eds,
+    purpose: new purposes.AuthenticationProofPurpose({
+      controller: {
+        "@context": ["https://w3id.org/security/v2"],
+        id: didDoc.verificationMethod[0].id,
+        authentication: didDoc.authentication[0],
+      },
+      challenge: "123",
+      domain: "https://example.com",
+    }),
+    documentLoader: docloader,
+  });
+  console.log(signed);
+}
 </script>
 
 <template>
-  <div class="row">
+  <div
+    class="row"
+    style="width: fit-content; height: fit-content; padding: 5px"
+  >
     <div class="cosmos column" style="float: left">
       <h1>InterChain</h1>
       <div>
@@ -268,33 +350,37 @@ async function signArbitrary(chainId) {
           SignArbitery
         </button>
         <div class="row">
-    <div>
-      <h3>Connected :</h3>
-      <i> {{ state.connected }} </i>
-    </div>
-    <br />
-    <div>
-      <h3>Signature :</h3>
-      <i>
-        {{
-          typeof state.signature == "object"
-            ? JSON.stringify(state.signature, null, 2)
-            : ""
-        }}
-      </i>
-    </div>
-  </div>
+          <div>
+            <h3>Connected :</h3>
+            <i> {{ state.connected }} </i>
+          </div>
+          <br />
+          <div>
+            <h3>Signature :</h3>
+            <i>
+              {{
+                typeof state.signature == "object"
+                  ? JSON.stringify(state.signature, null, 2)
+                  : ""
+              }}
+            </i>
+          </div>
+        </div>
       </div>
-
-      
+      <div
+        class="row"
+        style="width: fit-content; height: fit-content; padding: 5px"
+      >
+        <h1>DID</h1>
+        <button @click="generateDid">Generate DID</button>
+      </div>
     </div>
     <div class="metamask column" style="float: right">
       <h1>EVM</h1>
-      <HelloWorld/>
+      <HelloWorld />
     </div>
   </div>
-
-
+  <br />
 </template>
 
 <style scoped>

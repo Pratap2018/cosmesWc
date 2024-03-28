@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0 --port 5174",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
@@ -12,9 +12,19 @@
   "dependencies": {
     "@wagmi/connectors": "4.1.14",
     "@wagmi/core": "2.6.5",
+    "@walletconnect/ethereum-provider": "^2.11.3",
+    "@walletconnect/modal": "^2.6.2",
+    "@walletconnect/sign-client": "^2.11.3",
+    "@walletconnect/universal-provider": "^2.11.3",
+    "@web3modal/scaffold-utils": "^4.1.2",
     "@web3modal/wagmi": "4.1.1",
-    "buffer": "^6.0.3",
     "cosmes": "https://github.com/hypersign-protocol/cosmes#build",
+    "ethereumeip712signature2021suite": "link:../EthereumEip712Signature2021Suite",
+    "hs-ssi-sdk": "github:hypersign-protocol/hid-ssi-js-sdk#testcase/bjj",
+    "jsonld": "^8.3.2",
+    "jsonld-signatures": "^11.2.1",
+    "keplr-ecdsasecp256k1signature2019": "../cosmos_signArbitary_ADR-036SignatureSuite",
+    "multiformats": "^13.1.0",
     "viem": "^2.8.12",
     "vue": "^3.4.21"
   },
@@ -22,6 +32,6 @@
     "@vitejs/plugin-vue": "^5.0.4",
     "gh-pages": "^6.1.1",
     "vite": "^5.1.5",
-    "vite-plugin-node-polyfills": "^0.21.0"
+    "vite-plugin-node-stdlib-browser": "^0.2.1"
   }
 }
