@@ -1,6 +1,7 @@
 <script setup>
-import { mainnet, bsc } from "@wagmi/core/chains";
+import { mainnet, bsc , polygon } from "@wagmi/core/chains";
 import { getAccount, signTypedData, signMessage, connect } from "@wagmi/core";
+console.log(signTypedData);
 import { HypersignDID } from "hs-ssi-sdk";
 import SignClient from "@walletconnect/sign-client";
 import UniversalProvider from "@walletconnect/universal-provider";
@@ -56,7 +57,7 @@ if (!projectId) {
 }
 
 // 2. Create wagmiConfig
-const chains = [mainnet, bsc];
+const chains = [bsc,];
 const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
@@ -80,9 +81,10 @@ const w3modal = createWeb3Modal({
     "--w3m-color-mix-strength": 20,
   },
 });
-
+let idx;
 w3modal.subscribeEvents((e) => {
   console.log(JSON.stringify(e.data.properties));
+  idx = e.data.properties.method !== "browser" ? 0 : 1;
   // alert(JSON.stringify(e.data.properties));
 });
 
@@ -95,7 +97,12 @@ const store = reactive({
   signature: "",
 });
 
-const domain = {};
+const domain = {
+  name: "Ether Mail",
+  version: "1",
+  chainId: 1,
+  verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+};
 
 const types = {
   Person: [
@@ -107,6 +114,7 @@ const types = {
     { name: "to", type: "Person" },
     { name: "contents", type: "string" },
   ],
+  EIP712Domain: getTypesForEIP712Domain({ domain }),
 };
 
 const message = {
@@ -142,7 +150,7 @@ async function generateDidEVM() {
     providers.push(c.getProvider())
   );
 
-  const provider = await Promise.resolve(providers[1]);
+  const provider = await Promise.resolve(providers[idx]);
 
   console.log(provider);
   provider.enable({});
@@ -152,6 +160,17 @@ async function generateDidEVM() {
   });
 
   // await connect(wagmiConfig, { connector, chainId: "0x1" });
+  // console.log(
+  //   await provider.request({
+  //     method: "eth_signTypedData_v4",
+  //     params: [
+  //       provider.address ? provider.address : provider.accounts[0],
+
+  //       { domain, message, primaryType: "Mail", types },
+  //     ],
+  //   })
+  // );
+
   // console.log(
   //   await signTypedData(wagmiConfig, {
   //     domain,
@@ -241,7 +260,7 @@ async function generateDidEVM() {
     chainId,
   });
   delete didDoc.keyAgreement;
-  const eth = new EthereumEip712Signature2021({}, { _provider: provider, signTypedData, config:wagmiConfig });
+  const eth = new EthereumEip712Signature2021({}, { _provider: provider });
 
   const proof = await eth.createProof({
     document: didDoc,

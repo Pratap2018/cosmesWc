@@ -292,7 +292,24 @@ async function generateDid() {
     documentLoader: docloader,
   });
   console.log(signed);
+  const verify = await jsSig.verify(signed, {
+    suite: eds,
+    purpose: new purposes.AuthenticationProofPurpose({
+      controller: {
+        "@context": ["https://w3id.org/security/v2"],
+        id: didDoc.verificationMethod[0].id,
+        authentication: didDoc.authentication[0],
+      },
+      challenge: "123",
+      domain: "https://example.com",
+    }),
+    documentLoader: docloader,
+  });
+  console.log(verify);
 }
+
+
+
 </script>
 
 <template>
