@@ -1,5 +1,5 @@
 <script setup>
-import { mainnet, bsc , polygon } from "@wagmi/core/chains";
+import { mainnet, bsc, polygon } from "@wagmi/core/chains";
 import { getAccount, signTypedData, signMessage, connect } from "@wagmi/core";
 console.log(signTypedData);
 import { HypersignDID } from "hs-ssi-sdk";
@@ -57,7 +57,7 @@ if (!projectId) {
 }
 
 // 2. Create wagmiConfig
-const chains = [bsc,];
+const chains = [bsc];
 const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
@@ -83,7 +83,7 @@ const w3modal = createWeb3Modal({
 });
 let idx;
 w3modal.subscribeEvents((e) => {
-  console.log(JSON.stringify(e.data.properties));
+  console.log(JSON.stringify(e));
   idx = e.data.properties.method !== "browser" ? 0 : 1;
   // alert(JSON.stringify(e.data.properties));
 });
@@ -144,13 +144,14 @@ async function signWC(chainId) {
 
 async function generateDidEVM() {
   console.log(wagmiConfig.connectors);
+  console.log(JSON.parse(localStorage.getItem("wagmi.store")).state.current);
+  const current = JSON.parse(localStorage.getItem("wagmi.store")).state.current;
   // console.log(CoreConstants);
   const providers = [];
-  const connector = wagmiConfig.connectors.map((c) =>
-    providers.push(c.getProvider())
-  );
 
-  const provider = await Promise.resolve(providers[idx]);
+  const conn = wagmiConfig.connectors.find((c) => c.uid === current);
+  console.log(conn);
+  const provider = await conn.getProvider();
 
   console.log(provider);
   provider.enable({});
