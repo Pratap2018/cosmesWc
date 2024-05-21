@@ -1,5 +1,5 @@
 <script setup>
-import { mainnet, bsc } from "@wagmi/core/chains";
+import { mainnet, bsc, polygon, moonbeam, moonriver } from "@wagmi/core/chains";
 import { getAccount, signTypedData, signMessage, connect } from "@wagmi/core";
 import { HypersignDID } from "hs-ssi-sdk";
 import SignClient from "@walletconnect/sign-client";
@@ -13,7 +13,8 @@ function isHex(value, { strict = true } = {}) {
   if (typeof value !== "string") return false;
   return strict ? /^0x[0-9a-fA-F]*$/.test(value) : value.startsWith("0x");
 }
-console.log(CoreConstants);
+import jsSig from "jsonld-signatures";
+
 import {
   createWeb3Modal,
   defaultWagmiConfig,
@@ -56,7 +57,7 @@ if (!projectId) {
 }
 
 // 2. Create wagmiConfig
-const chains = [mainnet, bsc];
+const chains = [mainnet, bsc, polygon, moonbeam, moonriver];
 const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
@@ -82,7 +83,13 @@ const w3modal = createWeb3Modal({
 });
 
 w3modal.subscribeEvents((e) => {
-  console.log(JSON.stringify(e.data.properties));
+  console.log(JSON.stringify(e.data));
+  if (
+    (e.data.event == "MODAL_CLOSE" || e.data.event == "CONNECT_SUCCESS") &&
+    (e.data.properties.connected == true ||
+      e.data.properties.method == "browser")
+  )
+    generateDidEVM();
   // alert(JSON.stringify(e.data.properties));
 });
 
@@ -135,14 +142,15 @@ async function signWC(chainId) {
 }
 
 async function generateDidEVM() {
-  console.log(wagmiConfig.connectors);
   // console.log(CoreConstants);
+  console.log(wagmiConfig.state.current);
+  console.log(wagmiConfig.connectors);
   const providers = [];
-  const connector = wagmiConfig.connectors.map((c) =>
-    providers.push(c.getProvider())
+  const connetor = wagmiConfig.connectors.filter(
+    (e) => e.uid == wagmiConfig.state.current
   );
 
-  const provider = await Promise.resolve(providers[1]);
+  const provider = await Promise.resolve(connetor[0].getProvider());
 
   console.log(provider);
   provider.enable({});
@@ -241,21 +249,21 @@ async function generateDidEVM() {
     chainId,
   });
   delete didDoc.keyAgreement;
-  const eth = new EthereumEip712Signature2021({}, { _provider: provider, signTypedData, config:wagmiConfig });
-
-  const proof = await eth.createProof({
-    document: didDoc,
+  const eth = new EthereumEip712Signature2021(
+    {},
+    { _provider: provider, signTypedData, config: wagmiConfig }
+  );
+  const proof = await jsSig.sign(didDoc, {
+    suite: eth,
     purpose: new purposes.AuthenticationProofPurpose({
       controller: {
         "@context": ["https://w3id.org/security/v2"],
-        id: didDoc.id,
+        id: didDoc.authentication[0],
         authentication: didDoc.authentication,
       },
-      challenge: "123",
-      domain: "http://example.com",
+      challenge: "112a155f-7a6d-46c8-b18c-fc032d650ecc",
+      domain: "https://authserver.hypersign.id/",
     }),
-    verificationMethod: didDoc.verificationMethod[0].id,
-    domain: {},
     documentLoader: docloader,
   });
   console.log(proof);
@@ -271,7 +279,7 @@ async function generateDidEVM() {
 </script>
 
 <template>
-  <button @click="modal.open()">Open Connect Modal</button>
+  <button @click="modal.open({ view: 'Connect' })">Open Connect Modal</button>
   <button @click="modal.open({ view: 'Networks' })">Open Network Modal</button>
   <button @click="setThemeMode(themeMode === 'dark' ? 'light' : 'dark')">
     Toggle Theme Mode

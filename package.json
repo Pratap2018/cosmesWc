@@ -19,11 +19,11 @@
     "@web3modal/scaffold-utils": "^4.1.2",
     "@web3modal/wagmi": "4.1.1",
     "cosmes": "https://github.com/hypersign-protocol/cosmes#build",
-    "ethereumeip712signature2021suite": "link:../EthereumEip712Signature2021Suite",
+    "ethereumeip712signature2021suite": "github:hypersign-protocol/EthereumEip712Signature2021Suite#tsconfig",
     "hs-ssi-sdk": "github:hypersign-protocol/hid-ssi-js-sdk#testcase/bjj",
     "jsonld": "^8.3.2",
     "jsonld-signatures": "^11.2.1",
-    "keplr-ecdsasecp256k1signature2019": "../cosmos_signArbitary_ADR-036SignatureSuite",
+    "keplr-ecdsasecp256k1signature2019": "github:hypersign-protocol/KeplrEcdsaSecp256k1Signature2019",
     "multiformats": "^13.1.0",
     "viem": "^2.8.12",
     "vue": "^3.4.21"

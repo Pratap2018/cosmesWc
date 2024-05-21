@@ -286,8 +286,8 @@ async function generateDid() {
         id: didDoc.verificationMethod[0].id,
         authentication: didDoc.authentication[0],
       },
-      challenge: "123",
-      domain: "https://example.com",
+      challenge: "a987f6cf-488b-4a3d-9d44-9a8bbbe15793",
+      domain: "https://authserver.hypersign.id/",
     }),
     documentLoader: docloader,
   });

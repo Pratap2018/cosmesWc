@@ -33,8 +33,8 @@ dependencies:
     specifier: https://github.com/hypersign-protocol/cosmes#build
     version: github.com/hypersign-protocol/cosmes/ba65cc75485abf799cc49662e2c21ddf65ad13c2(@bufbuild/protobuf@1.8.0)(@noble/hashes@1.4.0)(@noble/secp256k1@2.1.0)(@scure/base@1.1.6)(@scure/bip32@1.3.3)(@scure/bip39@1.2.2)(@walletconnect/legacy-client@2.0.0)(@walletconnect/sign-client@2.11.3)(lodash-es@4.17.21)
   ethereumeip712signature2021suite:
-    specifier: link:../EthereumEip712Signature2021Suite
-    version: link:../EthereumEip712Signature2021Suite
+    specifier: github:hypersign-protocol/EthereumEip712Signature2021Suite#tsconfig
+    version: github.com/hypersign-protocol/EthereumEip712Signature2021Suite/7fb4ba8bcb788e85f0c97371dcddfdcb99f5d8c5
   hs-ssi-sdk:
     specifier: github:hypersign-protocol/hid-ssi-js-sdk#testcase/bjj
     version: github.com/hypersign-protocol/hid-ssi-js-sdk/d552c9fab0a0c777f3a236ee0fd9019a5d2914d3(@iden3/js-crypto@1.1.0)(idb-keyval@6.2.1)
@@ -45,8 +45,8 @@ dependencies:
     specifier: ^11.2.1
     version: 11.2.1
   keplr-ecdsasecp256k1signature2019:
-    specifier: ../cosmos_signArbitary_ADR-036SignatureSuite
-    version: link:../cosmos_signArbitary_ADR-036SignatureSuite
+    specifier: github:hypersign-protocol/KeplrEcdsaSecp256k1Signature2019
+    version: github.com/hypersign-protocol/KeplrEcdsaSecp256k1Signature2019/f3d9d762113a82ed78f2120dbe2f0e273dbd9140(mobx@6.12.3)
   multiformats:
     specifier: ^13.1.0
     version: 13.1.0
@@ -2400,6 +2400,74 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@keplr-wallet/common@0.12.89(mobx@6.12.3):
+    resolution: {integrity: sha512-01VBA0TW+9djwTGoZpHjtNZuoIKLjvbpMQmhVKehZUiBP8hNe2QJulZe323VE38zbD3UMI1N1gcZ+GGMav/u4g==}
+    peerDependencies:
+      mobx: ^6
+    dependencies:
+      '@keplr-wallet/crypto': 0.12.89
+      '@keplr-wallet/types': 0.12.89
+      buffer: 6.0.3
+      delay: 4.4.1
+      mobx: 6.12.3
+    dev: false
+
+  /@keplr-wallet/cosmos@0.12.89(mobx@6.12.3):
+    resolution: {integrity: sha512-UCLAlLz8swRm927+twRD8hf1/cP8779Eejtm88yNy90mbaf/fQvRK7+vwcqkEUN54Hh5E44c3JM0iWXAQbHiFg==}
+    dependencies:
+      '@ethersproject/address': 5.7.0
+      '@keplr-wallet/common': 0.12.89(mobx@6.12.3)
+      '@keplr-wallet/crypto': 0.12.89
+      '@keplr-wallet/proto-types': 0.12.89
+      '@keplr-wallet/simple-fetch': 0.12.89
+      '@keplr-wallet/types': 0.12.89
+      '@keplr-wallet/unit': 0.12.89
+      bech32: 1.1.4
+      buffer: 6.0.3
+      long: 4.0.0
+      protobufjs: 6.11.4
+    transitivePeerDependencies:
+      - mobx
+    dev: false
+
+  /@keplr-wallet/crypto@0.12.89:
+    resolution: {integrity: sha512-RrRvGxA4C8iYlqU1+kmSSD8VfhSGftJ4C+giAQsa30EyoXYkUvNL9cFHbg9VehTtO40FzebYc/Isxe4XyhPEqA==}
+    dependencies:
+      '@ethersproject/keccak256': 5.7.0
+      bip32: 2.0.6
+      bip39: 3.1.0
+      bs58check: 2.1.2
+      buffer: 6.0.3
+      crypto-js: 4.2.0
+      elliptic: 6.5.5
+      sha.js: 2.4.11
+    dev: false
+
+  /@keplr-wallet/proto-types@0.12.89:
+    resolution: {integrity: sha512-HD1tTji/2U8PpVhHuKTywdAXw4ISRkxWPLvC5ZxMWDbUaS5NigQ1CLW/xThZCs2Oo4/7YXKExNBYN7RzKdfTfA==}
+    dependencies:
+      long: 4.0.0
+      protobufjs: 6.11.4
+    dev: false
+
+  /@keplr-wallet/simple-fetch@0.12.89:
+    resolution: {integrity: sha512-Br2DY+TmhAluLdKj2NXDGxihi4RLviAS3sQY0BMeEnXn2pDzb5j0q79u5eYhggxusNUFmMuJJFonfmquNWfvMg==}
+    dev: false
+
+  /@keplr-wallet/types@0.12.89:
+    resolution: {integrity: sha512-TEyZKlmxBkJMvySJ6nJ9GNkEPWwhGI71X/l3HSdXUm7klNswOlXPtTuPmWE9qSyYdzYnRHKWioY2Truq2GzRIg==}
+    dependencies:
+      long: 4.0.0
+    dev: false
+
+  /@keplr-wallet/unit@0.12.89:
+    resolution: {integrity: sha512-/N4w0YhHYUSwJUhGWIALmjada3pKmgR+m51d9e773TobjcBn9yLDwdSiqQ+BAPGLf0vcMP3KcAZ58p08bKrnmA==}
+    dependencies:
+      '@keplr-wallet/types': 0.12.89
+      big-integer: 1.6.52
+      utility-types: 3.11.0
+    dev: false
+
   /@lit-labs/ssr-dom-shim@1.2.0:
     resolution: {integrity: sha512-yWJKmpGE6lUURKAaIltoPIE/wrbY3TEkqQt+X0m+7fQNnAv0keydnYvbiJFP1PnMhizmIWRWOG5KLhYyc/xl+g==}
     dev: false
@@ -3637,7 +3705,7 @@ packages:
   /@types/bn.js@5.1.5:
     resolution: {integrity: sha512-V46N0zwKRF5Q00AZ6hWtN0T8gGmDUaUzLWQvHFo5yThtVwK/VCenFY3wXVbOvNfajEpsTfQM4IN9k/d6gUVX3A==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.11.30
     dev: false
 
   /@types/cacheable-request@6.0.3:
@@ -3645,7 +3713,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 12.20.55
+      '@types/node': 20.11.30
       '@types/responselike': 1.0.3
     dev: false
 
@@ -3707,7 +3775,7 @@ packages:
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.11.30
     dev: false
 
   /@types/long@4.0.2:
@@ -3716,6 +3784,10 @@ packages:
 
   /@types/ms@0.7.34:
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
+    dev: false
+
+  /@types/node@10.12.18:
+    resolution: {integrity: sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==}
     dev: false
 
   /@types/node@12.20.55:
@@ -3745,7 +3817,7 @@ packages:
   /@types/responselike@1.0.3:
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.11.30
     dev: false
 
   /@types/secp256k1@4.0.6:
@@ -5089,6 +5161,10 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /base-x@4.0.0:
+    resolution: {integrity: sha512-FuwxlW4H5kh37X/oW59pwTzzTKRzfrrQwhmyspRM7swOEZcHtDZSCt45U6oKgtuFE+WYPblePMVIPR4RZrh/hw==}
+    dev: false
+
   /base58-universal@1.0.0:
     resolution: {integrity: sha512-v0Ja4jwaQP8gBZPNXpfaXlLht2ed/Gp3AsVUZXtlZgY1qbKS0CjxvYs43U0Gh00zbVc1neMe+q/ULJ7ubVyB+w==}
     engines: {node: '>=8.3.0'}
@@ -5121,6 +5197,11 @@ packages:
     resolution: {integrity: sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==}
     dev: false
 
+  /big-integer@1.6.52:
+    resolution: {integrity: sha512-QxD8cf2eVqJOOz63z6JIN9BzvVs/dlySa5HGSBH5xtR8dPteIRQnBxxKqkNTiT6jbDTF6jAfrd4oMcND9RGbQg==}
+    engines: {node: '>=0.6'}
+    dev: false
+
   /bignumber.js@9.1.2:
     resolution: {integrity: sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==}
     dev: false
@@ -5128,6 +5209,25 @@ packages:
   /binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
+    dev: false
+
+  /bindings@1.5.0:
+    resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    dependencies:
+      file-uri-to-path: 1.0.0
+    dev: false
+
+  /bip32@2.0.6:
+    resolution: {integrity: sha512-HpV5OMLLGTjSVblmrtYRfFFKuQB+GArM0+XP8HGWfJ5vxYBqo+DesvJwOdC2WJ3bCkZShGf0QIfoIpeomVzVdA==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      '@types/node': 10.12.18
+      bs58check: 2.1.2
+      create-hash: 1.2.0
+      create-hmac: 1.1.7
+      tiny-secp256k1: 1.1.6
+      typeforce: 1.18.0
+      wif: 2.0.6
     dev: false
 
   /bip39@3.1.0:
@@ -5279,6 +5379,12 @@ packages:
     resolution: {integrity: sha512-Ok3Wdf5vOIlBrgCvTq96gBkJw+JUEzdBgyaza5HLtPm7yTHkjRy8+JzNyHF7BHa0bNWOQIp3m5YF0nnFcOIKLw==}
     dependencies:
       base-x: 3.0.9
+    dev: false
+
+  /bs58@5.0.0:
+    resolution: {integrity: sha512-r+ihvQJvahgYT50JD05dyJNKlmmSlMoOGwn1lCcEzanPglg7TxYjioQUYehQ9mAR/+hOSd2jRc/Z2y5UxBymvQ==}
+    dependencies:
+      base-x: 4.0.0
     dev: false
 
   /bs58check@2.1.2:
@@ -5869,6 +5975,10 @@ packages:
       randomfill: 1.0.4
     dev: true
 
+  /crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    dev: false
+
   /crypto-ld@5.1.0:
     resolution: {integrity: sha512-Dy1QoQzj+2K6UlGZ9l34cPp+g/YHOd+r3/DXXQTnnz5btGb0vqDlkZBn+icYmwntEmW0bvGVwFWvcwZSbk1EEQ==}
     engines: {node: '>=8.3.0'}
@@ -6031,6 +6141,11 @@ packages:
 
   /defu@6.1.4:
     resolution: {integrity: sha512-mEQCMmwJu317oSz8CwdIOdwf3xMif1ttiM8LTufzc3g6kR+9Pe236twL8j3IYT1F7GfRgGcW6MWxzZjLIkuHIg==}
+    dev: false
+
+  /delay@4.4.1:
+    resolution: {integrity: sha512-aL3AhqtfhOlT/3ai6sWXeqwnw63ATNpnUiN4HL7x9q+My5QtHlO3OIkasmug9LKzpheLdmUKGRKnYXYAS7FQkQ==}
+    engines: {node: '>=6'}
     dev: false
 
   /delayed-stream@1.0.0:
@@ -6811,6 +6926,10 @@ packages:
     dependencies:
       node-domexception: 1.0.0
       web-streams-polyfill: 3.3.3
+    dev: false
+
+  /file-uri-to-path@1.0.0:
+    resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
     dev: false
 
   /filename-reserved-regex@2.0.0:
@@ -8882,6 +9001,10 @@ packages:
       ufo: 1.5.3
     dev: false
 
+  /mobx@6.12.3:
+    resolution: {integrity: sha512-c8NKkO4R2lShkSXZ2Ongj1ycjugjzFFo/UswHBnS62y07DMcTc9Rvo03/3nRyszIvwPNljlkd4S828zIBv/piw==}
+    dev: false
+
   /mock-fs@4.14.0:
     resolution: {integrity: sha512-qYvlv/exQ4+svI3UOvPUpLDF0OMX5euvUH0Ny4N5QyRyhNdgAgUrVH3iUINSzEPLvx0kbo/Bp28GJKIqvE7URw==}
     dev: false
@@ -8975,6 +9098,10 @@ packages:
     dependencies:
       queue-microtask: 1.2.3
       readable-stream: 4.5.2
+    dev: false
+
+  /nan@2.19.0:
+    resolution: {integrity: sha512-nO1xXxfh/RWNxfd/XPfbIfFk5vgLsAxUR9y5O0cHMJu/AW9U95JLXqthYHjEp+8gQ5p96K9jUp8nbVOxCdRbtw==}
     dev: false
 
   /nano-json-stream-parser@0.1.2:
@@ -10912,6 +11039,18 @@ packages:
       setimmediate: 1.0.5
     dev: true
 
+  /tiny-secp256k1@1.1.6:
+    resolution: {integrity: sha512-FmqJZGduTyvsr2cF3375fqGHUovSwDi/QytexX1Se4BPuPZpTE5Ftp5fg+EFSuEf3lhZqgCRjEG3ydUQ/aNiwA==}
+    engines: {node: '>=6.0.0'}
+    requiresBuild: true
+    dependencies:
+      bindings: 1.5.0
+      bn.js: 4.12.0
+      create-hmac: 1.1.7
+      elliptic: 6.5.5
+      nan: 2.19.0
+    dev: false
+
   /tmpl@1.0.5:
     resolution: {integrity: sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==}
     dev: false
@@ -11060,6 +11199,10 @@ packages:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
     dependencies:
       is-typedarray: 1.0.0
+    dev: false
+
+  /typeforce@1.18.0:
+    resolution: {integrity: sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==}
     dev: false
 
   /ufo@1.5.3:
@@ -11291,6 +11434,11 @@ packages:
       is-generator-function: 1.0.10
       is-typed-array: 1.1.13
       which-typed-array: 1.1.15
+
+  /utility-types@3.11.0:
+    resolution: {integrity: sha512-6Z7Ma2aVEWisaL6TvBCy7P8rm2LQoPv6dJ7ecIaIixHcwfbJ0x7mWdbcwlIM5IGQxPZSFYeqRCqlOOeKoJYMkw==}
+    engines: {node: '>= 4'}
+    dev: false
 
   /utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
@@ -11833,6 +11981,12 @@ packages:
       isexe: 2.0.0
     dev: false
 
+  /wif@2.0.6:
+    resolution: {integrity: sha512-HIanZn1zmduSF+BQhkE+YXIbEiH0xPr1012QbFEGB0xsKqJii0/SqJjyn8dFv6y36kOznMgMB+LGcbZTJ1xACQ==}
+    dependencies:
+      bs58check: 2.1.2
+    dev: false
+
   /wrap-ansi@6.2.0:
     resolution: {integrity: sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==}
     engines: {node: '>=8'}
@@ -12099,6 +12253,27 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
+  github.com/hypersign-protocol/EthereumEip712Signature2021Suite/7fb4ba8bcb788e85f0c97371dcddfdcb99f5d8c5:
+    resolution: {tarball: https://codeload.github.com/hypersign-protocol/EthereumEip712Signature2021Suite/tar.gz/7fb4ba8bcb788e85f0c97371dcddfdcb99f5d8c5}
+    name: ethereumeip712signature2021suite
+    version: 0.0.1
+    dependencies:
+      bip39: 3.1.0
+      eth-sig-util: 3.0.1
+      ethers: 6.11.1
+      jcs: github.com/hypersign-protocol/JCS/d47e953505648c5f0e778dc024f64c65339558cb
+      jsonld: 3.3.2
+      jsonld-signatures: 9.3.1
+      web3: 1.10.4
+    transitivePeerDependencies:
+      - bufferutil
+      - domexception
+      - encoding
+      - supports-color
+      - utf-8-validate
+      - web-streams-polyfill
+    dev: false
+
   github.com/hypersign-protocol/EthereumEip712Signature2021Suite/f3c5980d44447572e8de9b6d38f85ff824b6a2b9:
     resolution: {tarball: https://codeload.github.com/hypersign-protocol/EthereumEip712Signature2021Suite/tar.gz/f3c5980d44447572e8de9b6d38f85ff824b6a2b9}
     name: ethereumeip712signature2021suite
@@ -12124,6 +12299,21 @@ packages:
     resolution: {tarball: https://codeload.github.com/hypersign-protocol/JCS/tar.gz/d47e953505648c5f0e778dc024f64c65339558cb}
     name: jcs
     version: 0.0.1
+    dev: false
+
+  github.com/hypersign-protocol/KeplrEcdsaSecp256k1Signature2019/f3d9d762113a82ed78f2120dbe2f0e273dbd9140(mobx@6.12.3):
+    resolution: {tarball: https://codeload.github.com/hypersign-protocol/KeplrEcdsaSecp256k1Signature2019/tar.gz/f3d9d762113a82ed78f2120dbe2f0e273dbd9140}
+    id: github.com/hypersign-protocol/KeplrEcdsaSecp256k1Signature2019/f3d9d762113a82ed78f2120dbe2f0e273dbd9140
+    name: keplr-ecdsasecp256k1signature2019
+    version: 1.0.0
+    dependencies:
+      '@keplr-wallet/cosmos': 0.12.89(mobx@6.12.3)
+      bs58: 5.0.0
+      jsonld-signatures: 9.3.1
+    transitivePeerDependencies:
+      - domexception
+      - mobx
+      - web-streams-polyfill
     dev: false
 
   github.com/hypersign-protocol/cosmes/ba65cc75485abf799cc49662e2c21ddf65ad13c2(@bufbuild/protobuf@1.8.0)(@noble/hashes@1.4.0)(@noble/secp256k1@2.1.0)(@scure/base@1.1.6)(@scure/bip32@1.3.3)(@scure/bip39@1.2.2)(@walletconnect/legacy-client@2.0.0)(@walletconnect/sign-client@2.11.3)(lodash-es@4.17.21):
