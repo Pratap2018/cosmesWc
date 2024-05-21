@@ -8,19 +8,23 @@ import vue from '@vitejs/plugin-vue'
 // https://vitejs.dev/config/
 export default defineConfig({
 
-  // base:'/cosmesWc',
-  
-  
+  base: '/cosmesWc',
+
+
   plugins: [
     vue(),
     nodePolyfills(),
-    
 
-    
+
+
 
   ],
+  build: {
+    commonjsOptions: { transformMixedEsModules: true }
+  }
+  ,
   resolve: {
-  
+
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
